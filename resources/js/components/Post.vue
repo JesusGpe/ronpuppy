@@ -2,17 +2,21 @@
     <div class="row">
       <div class="col-md-12">
         <div class="panel-google-plus">
-          <form style="padding:10px">
+          <form style="padding:10px" method="POST" enctype="multipart/form-data">
           <h3>Nueva publicacion</h3>
           <div class="form-group">
-            <label for="">Escribe tu publicacion</label>
-            <textarea class="form-control"></textarea>
+            <label for="">Titulo</label>
+            <input class="form-control" v-model="titulo">
+          </div>
+          <div class="form-group">
+            <label for="">Descripccion</label>
+            <textarea class="form-control" v-model="descripccion"></textarea>
           </div>
           <div class="form-group">
             <label for="">subir foto</label>
-            <input type="file" class="form-control">
+            <input type="file" class="form-control" @change="getImage" accept="image/*">
             <div style="padding:10px">
-              <button class="btn btn-info pull-right">Publicar</button>
+              <button class="btn btn-info pull-right" type="button" @click="postRegister()">Publicar</button>
             </div>
           </div>
         </form>
@@ -26,10 +30,33 @@
     export default {
         data() {
             return {
-              
+              titulo:'',
+              descripccion:'',
+              foto:null            
             };
         },
+        props: ['user_id'],
         methods: {
+          postRegister(){
+            let me = this;
+            var data = new  FormData();
+              data.append('foto', this.foto);
+              data.append('titulo', this.titulo);
+              data.append('descripccion',this.descripccion);
+              data.append('user_id', this.user_id);
+            axios
+            .post("/postRegister",data)
+            .then(function(response) {
+              console.log("publicacion correcta");
+            })
+          .catch(function(error) {
+            console.log(error);
+          });
+        },
+        getImage(event){
+          this.foto=event.target.files[0];
+          console.log(event);
+        } 
         },
         mounted() {
             console.log('Component mounted.')

@@ -29,8 +29,12 @@ class HomeController extends Controller
             ->where('user_id', \Auth::user()->id)
             ->select(DB::raw('count(*) as user_count'))
             ->first();
+        $userv = DB::table('veterinarias')
+            ->where('user_id', \Auth::user()->id)
+            ->select(DB::raw('count(*) as user_countv'))
+            ->first();
 
-        return view('contenido.contenido',["user"=>$user]);
+        return view('contenido.contenido',["user"=>$user,"userv"=>$userv]);
     }
 
     public function getUser(Request $request){

@@ -2,12 +2,11 @@
     <div class="row">
       <div class="col-md-12" v-for="data in user" :key="data.user_id">
         <div class="col-md-12 col-xs-12">
-     
                         <div class="white-box">
                             <div class="user-bg"> <img width="100%" alt="user" src="http://as01.epimg.net/epik/imagenes/2018/04/28/portada/1524913221_572475_1524913364_noticia_normal.jpg">
                                 <div class="overlay-box">
                                     <div class="user-content">
-                                        <a href="#"><img src="https://myanimals.co.kr/wp-content/uploads/2018/08/happy-dog.jpg" class="thumb-lg img-circle" alt="img"></a>
+                                        <a href="#"><img :src="'/imagenes/profile/'+data.foto" class="thumb-lg img-circle" alt="img"></a>
                                         <h4 class="text-white">{{data.nombre}}</h4>
                                         <h5 class="text-white">{{data.sexo}}</h5> </div>
                                 </div>
@@ -81,20 +80,12 @@
                 .then(function(response) {
                     me.user = response.data.mascota;
                     console.log(me.user);
-
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
             },
-            editProfile(){
-                if(this.edit){
-                    this.edit=false
-                }
-                else{
-                    this.edit=true
-                }
-            }
+            
 
         },
         mounted() {

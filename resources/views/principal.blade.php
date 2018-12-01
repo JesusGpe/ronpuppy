@@ -67,9 +67,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.navbar-static-side -->
         </nav>
         <!-- Left navbar-header -->
-        @if($user->user_count > 0)
-                @include('sidebar.sidebar')
-        @endif
+            @include('sidebar.sidebar')
+    
         <!-- Left navbar-header end -->
         <!-- Page Content -->
         <div id="page-wrapper">

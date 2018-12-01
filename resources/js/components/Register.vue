@@ -1,7 +1,11 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" v-if="!opc">
+            <div>
+                <h3>Es una veterinaria? haga click <a href="#" @click="opc=true">aqui</a></h3>
+            </div>
         <h3 class="text-center">Datos de la mascota</h3>
+        <form style="padding:10px" method="POST" enctype="multipart/form-data">
             <div class="form-group col-md-6">
                 <label>Nombre</label>
                 <input type="text" class="form-control" v-model="nombre">
@@ -27,8 +31,9 @@
             </div>
             <div class="form-group col-md-6">
                 <label>Foto</label>
-                <input type="text" class="form-control" v-model="foto">
+                <input type="file" class="form-control" @change="getImage" accept="image/*">
             </div>
+        </form>
             <div class="form-group col-md-12">
                 <label for="">{{mensaje}}</label>
                 <template v-if="!ok">
@@ -38,6 +43,9 @@
                     <a href="/home"><button class="btn btn-info pull-right">Continuar</button></a>
                 </template>
             </div>
+        </div>
+        <div v-else>
+            <registerv></registerv>
         </div>
     </div>
     
@@ -51,22 +59,23 @@
               tipo:'',
               fecha_nac:'',
               sexo:'',
-              foto:'',
+              foto:null,
               mensaje: '',
-              ok: false
+              ok: false,
+              opc:false
             };
         },
         methods: {
             register(){
                     let me = this;
+                    var data = new  FormData();
+                    data.append('nombre', this.nombre);
+                    data.append('tipo', this.tipo);
+                    data.append('fecha_nac',this.fecha_nac);
+                    data.append('sexo', this.sexo);
+                    data.append('foto',this.foto);
                     axios
-                    .post("/mascota/register", {
-                      nombre: this.nombre,
-                      tipo: this.tipo,
-                      fecha_nac: this.fecha_nac,
-                      sexo: this.sexo,
-                      foto: this.foto
-                    })
+                    .post("/mascota/register", data)
                     .then(function(response) {
                         me.ok = true;
                         me.mensaje = response.data.mensaje;
@@ -75,7 +84,11 @@
                     .catch(function(error) {
                       console.log(error);
                     });
-            }
+            },
+             getImage(event){
+                this.foto=event.target.files[0];
+                console.log(event);
+            } 
         },
         mounted() {
             console.log('Component mounted.')

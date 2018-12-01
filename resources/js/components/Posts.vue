@@ -2,31 +2,27 @@
     <div class="row">
       <div class="col-md-12">
         <h3>Publicaciones recientes</h3>
-          <div class="[ col-md-12]" style="margin-top:30px;">
+          <div class="col-md-12" style="margin-top:30px;" v-for="post in Posts" :key="post.id">
             <div class="[ panel panel-default ] panel-google-plus">
-                <div class="dropdown">
+                <div class="dropdown" v-if="user_id == post.user_id">
                     <span class="dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="[ glyphicon glyphicon-chevron-down ]"></span>
                     </span>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                     </ul>
                 </div>
                 <div class="panel-heading" width="400px">
                     <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270"/>
-                    <h3>Robert McIntosh</h3>
-                    <h5><span>Shared publicly</span> - <span>Jun 27, 2014</span> </h5>
+                    <h3 v-text="post.nombre"></h3>
+                    <h5><span>Publicada en:</span><span v-text="post.created_at"></span> </h5>
                 </div>
                 <div class="panel-body text-center" style="padding:20px">
-                  <h3>Titulo</h3>
-                  <img src="https://www.recreoviral.com/wp-content/uploads/2017/01/Perritos-tazas-de-te-4.jpg" alt="" class="rounded img-fluid" width="90%" height="350px">
+                  <h3 v-text="post.titulo"></h3>
+                  <img :src="'/imagenes/posts/'+post.imagen" alt="" class="rounded img-fluid" width="90%" height="350px">
                   <p></p>
                     <h3>Descripccion</h3>
-                    <p>Do people born in 2000 get to choose if they are Generation Y or Generation Z? How do you decide what generation you want to belong to?</p>
+                    <p v-text="post.descripcion"></p>
                 </div>
                 <div>
                 <hr>
@@ -59,16 +55,29 @@
     export default {
         data() {
             return {
-              
+              Posts : []
             };
         },
+        props: ['user_id'],
         methods: {
+            getPosts(){
+                let me = this;
+                axios.get("/getPosts")
+                .then(function(response) {
+                    me.Posts = response.data.posts;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });                
+            }
         },
         mounted() {
+            this.getPosts();
             console.log('Component mounted.')
         }
     }
 </script>
+
 <style>
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 

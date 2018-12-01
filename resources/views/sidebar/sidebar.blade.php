@@ -1,3 +1,4 @@
+@if($user->user_count > 0)
 <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse slimscrollsidebar">
                 <ul class="nav" id="side-menu">
@@ -17,14 +18,34 @@
                         <a href="map-google.html" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i><span class="hide-menu">Google Map</span></a>
                     </li>
                     <li>
-                        <a href="{{ route('logout')}}" 
-                onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();" class="waves-effect"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span class="hide-menu">Salir</span></a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-            </form>
-        </li>
+                    <a href="{{ route('logout')}}" 
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();" class="waves-effect"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span class="hide-menu">Salir</span></a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                    </form>
+                    </li>
                     </li>
                 </ul>
             </div>
         </div>
+
+@else
+<div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse slimscrollsidebar">
+                <ul class="nav" id="side-menu">
+                    <li>
+                    <a href="{{ route('logout')}}" 
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();" class="waves-effect"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span class="hide-menu">Salir</span></a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                    </form>
+                    </li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+@endif
+
+
