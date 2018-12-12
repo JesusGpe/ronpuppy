@@ -1,7 +1,7 @@
 @extends('principal')
 @section('contenido')
 	<template v-if="menu==0">
-	@if($user->user_count > 0 || $userv->user_countv > 0 )
+	@if($user->user_count > 0)
 		<post :user_id="{{\Auth::user()->id}}"></post>
     	<posts :user_id="{{\Auth::user()->id}}"></posts>
 	@else

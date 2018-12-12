@@ -1,7 +1,7 @@
 <template>
 <div class="row">
         <div class="col-md-12">
-        <h3 class="text-center">Datos de la mascota</h3>
+        <h3 class="text-center">Datos de la Organizacion</h3>
         <form style="padding:10px" method="POST" enctype="multipart/form-data">
             <div class="form-group col-md-6">
                 <label>Nombre</label>
@@ -55,7 +55,7 @@
               horario:'',
               servicios:'',
               especialidad:'',
-              logo:null,
+              imagen:null,
               mensaje: '',
               ok: false
             };
@@ -70,11 +70,11 @@
                 data.append('horario', this.horario);
                 data.append('servicios', this.servicios);
                 data.append('especialidad', this.especialidad);
-                data.append('logo',this.logo);
+                data.append('imagen',this.imagen);
+                data.append('tipo','org');
                 axios
-                .post("/veterinaria/register", data)
+                .post("/profile/register", data)
                 .then(function(response) {
-
                     me.ok = true;
                     me.mensaje = response.data.mensaje;
                     
@@ -84,7 +84,7 @@
                 });
             },
              getImage(event){
-                this.logo=event.target.files[0];
+                this.imagen=event.target.files[0];
                 console.log(event);
             } 
         },

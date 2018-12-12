@@ -55,6 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
                         </form>
                     </li>
+                    
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
                     <li>

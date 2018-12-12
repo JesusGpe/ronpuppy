@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Events\NotificationEvent;
 class PostController extends Controller
 {
     public function getPosts(){
 
-        $posts = Post::join('mascotas','posts.user_id','=','mascotas.user_id')
+        $posts = Post::join('profiles','posts.user_id','=','profiles.user_id')
         ->select('posts.id','posts.user_id','posts.titulo','posts.descripcion','posts.foto as imagen',
-        'posts.created_at','mascotas.nombre','mascotas.foto as foto')
+        'posts.created_at','profiles.nombre','profiles.imagen as foto')
         ->OrderBy('id','desc')->get();
 
         return ["posts" => $posts];
@@ -37,6 +38,15 @@ class PostController extends Controller
             $archivo->move(public_path().'/imagenes/posts/',$nombre);
             $publicacion->foto=$nombre;
         }
-    	$publicacion->save();
+        $publicacion->save();
+        
+        event(new NotificationEvent("asdasdasd","Adsasd"));
+    }
+
+    public function deletePost(Request $request){
+        $post = Post::findOrFail($request->id);
+        $post->delete();
+
+        return ["mensaje"=>"Post eliminado!"];
     }
 }

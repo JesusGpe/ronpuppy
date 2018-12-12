@@ -9,11 +9,11 @@
                         <span class="[ glyphicon glyphicon-chevron-down ]"></span>
                     </span>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
+                        <li role="presentation" class="manito" @click="deletePost(post.id)">Eliminar</li>
                     </ul>
                 </div>
                 <div class="panel-heading" width="400px">
-                    <img class="[ img-circle pull-left ]" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270"/>
+                    <img class="[ img-circle pull-left ]" :src="'/imagenes/profile/'+post.foto" alt="Foto" width="80px" height="80px"/>
                     <h3 v-text="post.nombre"></h3>
                     <h5><span>Publicada en:</span><span v-text="post.created_at"></span> </h5>
                 </div>
@@ -26,24 +26,8 @@
                 </div>
                 <div>
                 <hr>
-              <div style="margin-bottom:20px; padding:10px;">
-                <h3>Comentarios</h3>
-                <div class="panel-google-plus" style="padding:10px;">
-                  <h3>Jesus Gpe: </h3><p>Comentario</p>
-                </div>
-                </div>
+            <comment :post_id="post.id"></comment>
             </div>
-              <hr>
-            <div class="" style="margin-bottom:20px; padding:10px;">
-              <h3>Realizar comentario</h3>
-                  <div class="form-group">
-                    <textarea class="form-control"></textarea>
-                    <div style="padding:7px">
-                     <button class="btn btn-info pull-right">Comentar</button>
-                    </div>
-                  </div>
-            </div>
-
             </div>
             
         </div>
@@ -53,6 +37,12 @@
 
 <script>
     export default {
+        created: function () {
+    	 	let me= this;
+            this.$bus.$on('publicacion', function () {
+           me.getPosts();
+         });
+        },
         data() {
             return {
               Posts : []
@@ -69,21 +59,31 @@
                 .catch(function(error) {
                     console.log(error);
                 });                
+            },
+            deletePost(id){
+                let me = this;
+                if(confirm("Desea eliminar la publicacion")){
+                    axios.post("/deletePost",{"id":id})
+                    .then(function(response) {
+                        me.getPosts();
+                        console.log(response.data.mensaje);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });  
+                }
+                 
+                console.log(id);
             }
         },
         mounted() {
             this.getPosts();
-            console.log('Component mounted.')
+            
         }
     }
 </script>
 
 <style>
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
-
-hr{
-}
-
 .panel-google-plus {
     position: relative;
     border-radius: 0px;
@@ -257,5 +257,9 @@ hr{
 .panel-google-plus .btn-default:active {
     background-color: rgb(255, 255, 255);
     border-color: rgb(0, 0, 0);    
+}
+.manito:hover{
+    cursor: pointer;
+
 }
 </style>

@@ -12,7 +12,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label>Tipo</label>
-                <select class="form-control" v-model="tipo">
+                <select class="form-control" v-model="tipom">
                     <option value="Perro">Perro</option>
                     <option value="Gato">Gato</option>
                     <option value="Ave">Ave</option>
@@ -29,9 +29,14 @@
                     <option value="Hembra">Hembra</option>
                 </select>
             </div>
+            
             <div class="form-group col-md-6">
                 <label>Foto</label>
                 <input type="file" class="form-control" @change="getImage" accept="image/*">
+            </div>
+            <div class="form-group col-md-6">
+                <img :src="url" alt=""
+                width="200px" height="200px">
             </div>
         </form>
             <div class="form-group col-md-12">
@@ -56,10 +61,11 @@
         data() {
             return {
               nombre:'',
-              tipo:'',
+              tipom:'',
               fecha_nac:'',
               sexo:'',
-              foto:null,
+              imagen:null,
+              url: null,
               mensaje: '',
               ok: false,
               opc:false
@@ -70,23 +76,24 @@
                     let me = this;
                     var data = new  FormData();
                     data.append('nombre', this.nombre);
-                    data.append('tipo', this.tipo);
+                    data.append('tipom', this.tipom);
                     data.append('fecha_nac',this.fecha_nac);
                     data.append('sexo', this.sexo);
-                    data.append('foto',this.foto);
+                    data.append('imagen',this.imagen);
+                    data.append('tipo','mascota');
                     axios
-                    .post("/mascota/register", data)
+                    .post('/profile/register', data)
                     .then(function(response) {
                         me.ok = true;
                         me.mensaje = response.data.mensaje;
-
                     })
                     .catch(function(error) {
                       console.log(error);
                     });
             },
              getImage(event){
-                this.foto=event.target.files[0];
+                this.imagen=event.target.files[0];
+                this.url = URL.createObjectURL(this.imagen);
                 console.log(event);
             } 
         },

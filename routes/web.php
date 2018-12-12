@@ -6,17 +6,16 @@ Route::get('/', function () {
 
 });
 
-//rutas para las gestion del perfil de la mascota
-Route::get('/getUser','HomeController@getUser');
-Route::post('/mascota/register','MascotaController@register');
-
-//rutas para las gestion del perfil de la veterinaria
-Route::post('/veterinaria/register','VeterinariaController@register');
-
+//rutas para las gestion del perfil de los perfiles
+Route::get('/getUser','ProfileController@getUser');
+Route::post('/profile/register','ProfileController@register'); 
 //rutas para la gestion de los posts
 Route::get('/getPosts','PostController@getPosts');
-Route::post('/postRegister','PostController@postRegister');
+Route::get('/getComments','CommentController@getComments');
+Route::post('/registerComment','CommentController@registerComment');
 
+Route::post('/postRegister','PostController@postRegister');
+Route::post('/deletePost','PostController@deletePost');
 //Rutas para login y gestion de usuarios
 Auth::routes();
 

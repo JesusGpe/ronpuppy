@@ -37,29 +37,37 @@
         },
         props: ['user_id'],
         methods: {
-          postRegister(){
-            let me = this;
-            var data = new  FormData();
-              data.append('foto', this.foto);
-              data.append('titulo', this.titulo);
-              data.append('descripccion',this.descripccion);
-              data.append('user_id', this.user_id);
-            axios
-            .post("/postRegister",data)
-            .then(function(response) {
-              console.log("publicacion correcta");
-            })
-          .catch(function(error) {
-            console.log(error);
-          });
-        },
-        getImage(event){
-          this.foto=event.target.files[0];
-          console.log(event);
-        } 
+			postRegister(){
+				let me = this;
+				var data = new  FormData();
+				data.append('foto', this.foto);
+				data.append('titulo', this.titulo);
+				data.append('descripccion',this.descripccion);
+				data.append('user_id', this.user_id);
+				axios
+				.post("/postRegister",data)
+				.then(function(response) {
+					me.$bus.$emit('publicacion');
+					me.limpiar();
+					console.log("publicacion correcta");
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+			},
+			getImage(event){
+				this.foto=event.target.files[0];
+				console.log(event);
+			},
+			
+			limpiar(){
+				this.titulo="";
+				this.descripccion="";
+				this.foto=null;
+			}
         },
         mounted() {
-            console.log('Component mounted.')
+            
         }
     }
 </script>

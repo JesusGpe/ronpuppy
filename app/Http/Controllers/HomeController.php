@@ -25,22 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $user = DB::table('mascotas')
+        $user = DB::table('profiles')
             ->where('user_id', \Auth::user()->id)
             ->select(DB::raw('count(*) as user_count'))
             ->first();
-        $userv = DB::table('veterinarias')
-            ->where('user_id', \Auth::user()->id)
-            ->select(DB::raw('count(*) as user_countv'))
-            ->first();
+       
 
-        return view('contenido.contenido',["user"=>$user,"userv"=>$userv]);
+        return view('contenido.contenido',["user"=>$user]);
     }
 
-    public function getUser(Request $request){
-
-        $mascota = Mascota::where('user_id','=',$request->id)->get();
-
-        return ["mascota"=>$mascota];
-    }
+    
 }
