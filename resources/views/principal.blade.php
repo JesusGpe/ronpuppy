@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- /.col-lg-12 -->
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6 col-md-offset-2">
                         <div class="white-box">
                         @yield('contenido')
                     </div>
